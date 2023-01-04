@@ -1,0 +1,50 @@
+//   https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/description/
+
+
+class Solution {
+public:
+    int minimumRounds(vector<int>& tasks) {
+        unordered_map<int,int> mp;
+        for(auto x: tasks){
+            mp[x]++;
+        }
+        int cnt=0;
+        // cout<<tasks.size()<<endl;
+        set<int> st;
+        for(auto x: tasks){
+            st.insert(x);
+        }
+         
+        // for(auto x:mp){
+        //     cout<<x.first<<" "<<x.second<<endl;
+        // }
+
+        for(auto x: st){
+            if(mp[x]==1){
+                return -1;
+            }
+            else{
+                if(mp[x]%3==0){         //only divisible by 3
+                    cnt+=mp[x]/3;
+                }
+                else if(mp[x]%2!=0 || mp[x]%3!=0){              //divisible by 3 & 2
+                    while(true){
+                        mp[x]-=2;
+                        cnt++;
+                        if(mp[x]%3==0){
+                            cnt+=mp[x]/3;
+                            break;
+                        }
+                    }
+                }            
+                else if(mp[x]%2==0){    //only divisible by 3
+                        cnt+=mp[x]/2;
+                }
+                else{
+                    return -1;
+                }
+            }
+        }
+        return cnt;
+    }
+};
